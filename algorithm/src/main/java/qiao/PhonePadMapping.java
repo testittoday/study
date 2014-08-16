@@ -61,7 +61,9 @@ public class PhonePadMapping {
 	}
 
 	/**
-	 * 
+	 * return all words in a dictionary that can be formed from a string of
+	 * numbers (e.g. 34556), where the numbers map the same way they do on a
+	 * phone
 	 * 
 	 * @param digit
 	 *            0~9
