@@ -12,9 +12,9 @@ import java.util.Map;
 public class Searching {
 
 	/**
-	 * “An array contains integers with the property that a particular number,
+	 * An array contains integers with the property that a particular number,
 	 * called the majority element, appears more than 50% of the time. Give an
-	 * algo to find this majority number”
+	 * algo to find this majority number
 	 * 
 	 * @param array
 	 * @return
