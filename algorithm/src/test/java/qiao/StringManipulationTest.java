@@ -22,10 +22,15 @@ public class StringManipulationTest {
 				4));
 		assertFalse(StringManipulation.isPalindromic("321234".toCharArray(), 0,
 				5));
-
-		System.out.println("largest:"
-				+ StringManipulation.findLargestPalindromicStr(
-						"3212343210000000".toCharArray(), 0));
+		String s = StringManipulation.findLargestPalindromicStr(
+				"32123432100000000".toCharArray(), 0);
+		assertTrue(s, "00000000".equals(s));
+		s = StringManipulation.findLargestPalindromicStr(
+				"abacdgfdcaba".toCharArray(), 0);
+		assertTrue(s, "aba".equals(s));
+		s = StringManipulation.findLargestPalindromicStr(
+				"caba".toCharArray(), 0);
+		assertTrue(s, "aba".equals(s));
 	}
 
 }

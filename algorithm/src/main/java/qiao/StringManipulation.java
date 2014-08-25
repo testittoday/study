@@ -27,9 +27,9 @@ public class StringManipulation {
 	}
 
 	public static String findLargestPalindromicStr(char[] chars, int start) {
-		String largest = "";
-		for (int i = start; i < chars.length - largest.length() - 1; i++) {
-			for (int j = i + largest.length() + 1; j < chars.length; j++) {
+		String largest = String.valueOf(chars[0]);
+		for (int i = start; i < chars.length - largest.length(); i++) {
+			for (int j = i + largest.length(); j < chars.length; j++) {
 				if (isPalindromic(chars, i, j)
 						&& (j - i + 1 > largest.length())) {
 					StringBuilder sb = new StringBuilder();
