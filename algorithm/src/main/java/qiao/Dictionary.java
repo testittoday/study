@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class Dictionary {
 	private static final String[] NO_WORDS = new String[0];
-	private static final Set<String> WORD_LIST = new HashSet<String>();
+	public static final Set<String> WORD_LIST = new HashSet<String>();
 
 	static {
 		try {
@@ -87,5 +87,63 @@ public class Dictionary {
 				collectLetterCombination(letters, wordIndex + 1, word, words);
 			}
 		}
+	}
+
+	/**
+	 * Given a string s and a dictionary of words dict, determine if s can be
+	 * segmented into a space-separated sequence of one or more dictionary
+	 * words.
+	 * 
+	 * Accepted by online Judge
+	 * 
+	 * 
+	 * @param s
+	 * @param dict
+	 * @return
+	 */
+	public static boolean wordBreak(String s, Set<String> dict) {
+		if (s == null || s.isEmpty()) {
+			return false;
+		}
+		// return true if the string itself is a word
+		if (dict.contains(s)) {
+			return true;
+		}
+		// go through the string to see if a word could be matched; if yes,
+		// check if the rest of the string could be broken
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			char cc = s.charAt(s.length() - 1 - i);
+			boolean firstLetterExists = false;
+			boolean lastLetterExists = false;
+			for (String d : dict) {
+				if (d.indexOf(c) >= 0) {
+					firstLetterExists = true;
+				}
+				if (d.indexOf(cc) >= 0) {
+					lastLetterExists = true;
+				}
+				if (firstLetterExists && lastLetterExists) {
+					break;
+				}
+			}
+			if (!firstLetterExists || !lastLetterExists) {
+				return false;
+			}
+			String ss = s.substring(0, i + 1);
+			String sss = s.substring(i + 1);
+			if (dict.contains(ss)) {
+				if (wordBreak(sss, dict)) {
+					return true;
+				}
+			} else {
+				if (dict.contains(sss)) {
+					if (wordBreak(ss, dict)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 }

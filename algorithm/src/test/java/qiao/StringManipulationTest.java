@@ -31,6 +31,12 @@ public class StringManipulationTest {
 		s = StringManipulation.findLargestPalindromicStr(
 				"caba".toCharArray(), 0);
 		assertTrue(s, "aba".equals(s));
+		s = StringManipulation.findLargestPalindromicStr(
+				"babcbabcbaccba".toCharArray(), 0);
+		assertTrue(s, "abcbabcba".equals(s));
+		
+		s = "the sky is blue";
+		assertTrue("blue is sky the".equals(StringManipulation.reverseWords(s)));
 	}
 
 }
