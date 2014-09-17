@@ -1,6 +1,7 @@
 package qiao;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 import zhan.Permutation;
@@ -80,5 +81,41 @@ public class Sorting {
 			}
 		}
 		return isAlternated;
+	}
+
+	public static int[] sort(int[] a) {
+		if (a == null || a.length == 0) {
+			return null;
+		}
+		if (a.length == 1) {
+			return a;
+		}
+		return a;
+	}
+
+	public static void sort(int[] a, int start, int end) {
+		if (start >= end || a.length == 1) {
+			return;
+		}
+		Set<Integer> leftNumbers = new HashSet<Integer>();
+		Set<Integer> rightNumbers = new HashSet<Integer>();
+		int pivot = a[start];
+		for (int i = start + 1; i <= end; i++) {
+			if (a[i] <= pivot) {
+				leftNumbers.add(a[i]);
+			} else if (a[i] > pivot) {
+				rightNumbers.add(a[i]);
+			}
+		}
+		int i = start;
+		for (Integer n : leftNumbers) {
+			a[i++] = n;
+		}
+		sort(a, start, i - 1);
+		a[i++] = pivot;
+		for (Integer n : rightNumbers) {
+			a[i++] = n;
+		}
+		sort(a, i - 1, end);
 	}
 }

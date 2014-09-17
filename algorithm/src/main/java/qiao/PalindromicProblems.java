@@ -1,6 +1,12 @@
 package qiao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
+ * Determine whether an integer is a palindrome.
+ * 
+ * How to do this without extra space?
  * 
  * @author liqiao
  * 
@@ -15,51 +21,31 @@ public class PalindromicProblems {
 		if (n < 0) {
 			return false;
 		}
-		int lastDigit = n % 10;
-		int fold = 0;
-		int firstDigit = n;
-		while (firstDigit >= 10) {
-			firstDigit = firstDigit / 10;
-			fold++;
+		List<Integer> digits = new ArrayList<Integer>();
+		while (n >= 10) {
+			digits.add(n % 10);
+			n = n / 10;
 		}
-		if (lastDigit == firstDigit) {
-			if (n < 100) {
-				return true;
-			} else {
-				n = trim(n, firstDigit, fold);
-				return isPalindrome(n);
-			}
-		}
-		return false;
+		digits.add(n);
+		return isPalindrome(digits);
 	}
 
-	public static int trim(int n, int firstDigit, int fold) {
-		if (n < 100 && n >= 0) {
-			return n;
+	private static boolean isPalindrome(List<Integer> digits) {
+		if (digits == null || digits.size() < 2) {
+			return true;
 		}
-		int originalFold = fold;
-		while (fold > 0) {
-			firstDigit *= 10;
-			fold--;
+		boolean evenLength = digits.size() % 2 == 0;
+		int lowStart = digits.size() / 2;
+		if (evenLength) {
+			lowStart = lowStart - 1;
 		}
-		n -= firstDigit;
-		int newFold = 0;
-		int newN = n;
-		while (newN >= 10) {
-			newN = newN / 10;
-			newFold++;
+		for (int i = lowStart, j = digits.size() / 2; i >= 0
+				&& j < digits.size(); i--, j++) {
+			if (digits.get(i).intValue() != digits.get(j).intValue()) {
+				return false;
+			}
 		}
-		int leftZeroCount = originalFold - 2 - newFold;
-		int rightZeroCount = 0;
-		newN = n;
-		while (newN % 10 == 0) {
-			newN = newN / 10;
-			rightZeroCount++;
-		}
-		if (leftZeroCount == rightZeroCount) {
-			return n;
-		} else {
-			return -1;
-		}
+		return true;
 	}
+
 }

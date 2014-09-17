@@ -5,6 +5,10 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Problem Description:
+ * 
+ * Clone a graph. Input is a Node pointer. Return the Node pointer of the cloned
+ * graph.
  * 
  * @author liqiao
  * 

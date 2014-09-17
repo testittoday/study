@@ -78,10 +78,6 @@ public class Searching {
 		return result;
 	}
 
-	private boolean isTriplet(int a, int b, int c) {
-		return (a + b + c) == 0;
-	}
-
 	public static int maxPoints(Point[] points) {
 		if (points == null || points.length < 1) {
 			return 0;
@@ -139,8 +135,130 @@ public class Searching {
 			}
 		}
 	}
-	
-	
 
-	
+	private boolean isTriplet(int a, int b, int c) {
+		return (a + b + c) == 0;
+	}
+
+	/**
+	 * Implement regular expression matching with support for '.' and '*'.
+	 * 
+	 * '.' Matches any single character. '*' Matches zero or more of the
+	 * preceding element.
+	 * 
+	 * The matching should cover the entire input string (not partial).
+	 * 
+	 * The function prototype should be: bool isMatch(const char *s, const char
+	 * *p)
+	 * 
+	 * Some examples:
+	 * 
+	 * isMatch("aa","a") → false
+	 * 
+	 * isMatch("aa","aa") → true
+	 * 
+	 * isMatch("aaa","aa") → false
+	 * 
+	 * isMatch("aa", "a*") → true
+	 * 
+	 * isMatch("aa", ".*") → true
+	 * 
+	 * isMatch("ab", ".*") → true
+	 * 
+	 * isMatch("aab", "c*a*b") → true
+	 * 
+	 * 
+	 * Accepted Solution in C++ got from leetcode.com:
+	 * 
+	 * 
+	 * bool isMatch(const char *s, const char *p) {
+	 * 
+	 * assert(s && p);
+	 * 
+	 * if (*p == '\0') return *s == '\0';
+	 * 
+	 * // next char is not '*': must match current character
+	 * 
+	 * if (*(p+1) != '*') {
+	 * 
+	 * assert(*p != '*');
+	 * 
+	 * return ((*p == *s) || (*p == '.' && *s != '\0')) && isMatch(s+1, p+1);
+	 * 
+	 * }
+	 * 
+	 * // next char is '*'
+	 * 
+	 * while ((*p == *s) || (*p == '.' && *s != '\0')) {
+	 * 
+	 * if (isMatch(s, p+2)) return true;
+	 * 
+	 * s++;
+	 * 
+	 * }
+	 * 
+	 * return isMatch(s, p+2);
+	 * 
+	 * }
+	 * 
+	 * @param s
+	 * @param p
+	 * @return
+	 */
+
+	public static boolean isMatchFromC(String s, String p) {
+		if (p == null || p.length() == 0) {
+			return s == null || s.length() == 0;
+		}
+		if (p.length() >= 2 && p.charAt(1) != '*') {
+			return p.equals(s)
+					|| (p.equals(".") && (s != null && s.length() > 0))
+					&& isMatchFromC(s.substring(1, s.length()),
+							p.substring(1, p.length()));
+		}
+
+		while ((s != null && s.length() > 0 && p.charAt(0) == s.charAt(0))
+				|| (p.charAt(0) == '.' && s != null && s.length() > 0)) {
+			String newP = null;
+			if (p.length() >= 3) {
+				newP = p.substring(2, p.length());
+			}
+			if (isMatchFromC(s, newP)) {
+				return true;
+			}
+			s = s.substring(1, s.length());
+		}
+		String newP = null;
+		if (p.length() >= 3) {
+			newP = p.substring(2, p.length());
+		}
+		return isMatchFromC(s, newP);
+
+	}
+
+	public static boolean isMatch(String s, String p) {
+		if (s == null || s.isEmpty() || p == null || p.isEmpty()) {
+			return false;
+		}
+		return isMatchFromC2(s.toCharArray(), 0, p.toCharArray(), 0);
+	}
+
+	private static boolean isMatchFromC2(char[] s, int sIndex, char[] p, int pIndex) {
+		if (pIndex >= p.length - 1) {
+			return sIndex == s.length - 1;
+		}
+		if (p[pIndex + 1] != '*') {
+			return p[pIndex] == s[sIndex]
+					|| (p[pIndex] == '.' && sIndex < s.length - 1)
+					&& isMatchFromC2(s, sIndex + 1, p, pIndex + 1);
+		}
+		while (p[pIndex] == s[sIndex]
+				|| (p[pIndex] == '.' && sIndex < s.length - 1)) {
+			if (isMatchFromC2(s, sIndex, p, pIndex + 2)) {
+				return true;
+			}
+			sIndex++;
+		}
+		return isMatchFromC2(s, sIndex, p, pIndex + 2);
+	}
 }

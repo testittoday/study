@@ -1,7 +1,9 @@
 package qiao;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.Stack;
 
 /**
@@ -228,6 +230,39 @@ public class TreeNavigation {
 		} else {
 			return p == null && q == null;
 		}
+	}
 
+	/**
+	 * Accepted by the Online Judge
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public List<Integer> postorderTraversal(TreeNode root) {
+		List<Integer> values = new ArrayList<Integer>();
+		TreeNode next = root;
+		Stack<TreeNode> unvisited = new Stack<TreeNode>();
+		Set<TreeNode> visited = new HashSet<TreeNode>();
+		while (next != null) {
+			if (next.left != null && !visited.contains(next.left)) {
+				unvisited.push(next);
+				next = next.left;
+				continue;
+			} else if (next.right != null && !visited.contains(next.right)) {
+				unvisited.push(next);
+				next = next.right;
+				continue;
+			} else {
+				// leaf node
+				values.add(next.val);
+				visited.add(next);
+				if (!unvisited.empty()) {
+					next = unvisited.pop();
+				} else {
+					break;
+				}
+			}
+		}
+		return values;
 	}
 }

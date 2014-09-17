@@ -82,6 +82,8 @@ public class ArrayMining {
 	 * the median of the two sorted arrays. The overall run time complexity
 	 * should be O(log (m+n)).
 	 * 
+	 * Accepted by the Online Judge
+	 * 
 	 * @param A
 	 * @param B
 	 * @return
@@ -92,36 +94,47 @@ public class ArrayMining {
 			if (B != null && B.length > 0) {
 				if (B.length % 2 == 1) {
 					return B[B.length / 2];
+				} else {
+					return (B[B.length / 2 - 1] + B[B.length / 2]) / 2.0;
+				}
+			}
+		} else {
+			if (B == null || B.length == 0) {
+				if (A.length % 2 == 1) {
+					return A[A.length/2];
+				}else{
+				    return (A[A.length / 2 - 1] + A[A.length / 2]) / 2.0;
 				}
 			}
 		}
 		int medianInd = (A.length + B.length) / 2;
 		boolean oddLength = (A.length + B.length) % 2 == 1;
-		int previous = A[0];
-		for (int i = 1, j = 0; i < A.length || j < B.length;) {
-			if (previous < B[j]) {
-				if (i + j == medianInd) {
-					if (oddLength) {
-						return A[i];
-					} else {
-						return (previous + A[i]) / 2;
-					}
-				}
-				previous = A[i];
-				if (i < A.length - 1) {
-					i++;
+		int previous = 0;
+		int median = 0;
+		boolean isAEnd = false;
+		boolean isBEnd = false;
+		for (int a = 0, b = 0, m = 0; m <= medianInd; m++) {
+			previous = median;
+			if (isBEnd || (!isAEnd && (A[a] <= B[b]))) {
+				median = A[a];
+				if (a < A.length-1) {
+					a++;
+				}else{
+				    isAEnd = true;
 				}
 			} else {
-				if (i + j == medianInd) {
-					if (oddLength) {
-						return B[j];
-					} else {
-						return (previous + B[j]) / 2;
-					}
+				median = B[b];
+				if (b < B.length-1) {
+					b++;
+				}else{
+				    isBEnd = true;
 				}
-				previous = B[j];
-				j++;
 			}
+		}
+		if (oddLength) {
+			return median;
+		} else {
+			return (median + previous) / 2.0;
 		}
 	}
 
