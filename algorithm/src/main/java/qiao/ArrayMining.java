@@ -1,5 +1,8 @@
 package qiao;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class ArrayMining {
 
 	/**
@@ -33,4 +36,128 @@ public class ArrayMining {
 		return maxDiff;
 	}
 
+	/**
+	 * Problem Description: Given a triangle, find the minimum path sum from top
+	 * to bottom. Each step you may move to adjacent numbers on the row below.
+	 * 
+	 * For example, given the following triangle [ [2], [3,4], [6,5,7],
+	 * [4,1,8,3] ] The minimum path sum from top to bottom is 11 (i.e., 2 + 3 +
+	 * 5 + 1 = 11).
+	 * 
+	 * Note: Bonus point if you are able to do this using only O(n) extra space,
+	 * where n is the total number of rows in the triangle.
+	 * 
+	 * Not accepted. But it seems that it is a bug in the Online Judge.
+	 * 
+	 * @param triangle
+	 * @return
+	 */
+	public static int minimumTotal(List<List<Integer>> triangle) {
+		if (triangle == null || triangle.size() == 0) {
+			return 0;
+		}
+		int minSum = 0;
+		int index = 0;
+		for (List<Integer> row : triangle) {
+			index = findMinIndex(row, index);
+			minSum += row.get(index);
+		}
+		return minSum;
+	}
+
+	private static int findMinIndex(List<Integer> numbers, int index) {
+		int right = index + 1;
+		if (right >= numbers.size()) {
+			right = numbers.size() - 1;
+		}
+		if (numbers.get(index) < numbers.get(right)) {
+			return index;
+		} else {
+			return right;
+		}
+	}
+
+	/**
+	 * There are two sorted arrays A and B of size m and n respectively. Find
+	 * the median of the two sorted arrays. The overall run time complexity
+	 * should be O(log (m+n)).
+	 * 
+	 * Accepted by the Online Judge
+	 * 
+	 * @param A
+	 * @param B
+	 * @return
+	 */
+
+	public double findMedianSortedArrays(int A[], int B[]) {
+		if (A == null || A.length == 0) {
+			if (B != null && B.length > 0) {
+				if (B.length % 2 == 1) {
+					return B[B.length / 2];
+				} else {
+					return (B[B.length / 2 - 1] + B[B.length / 2]) / 2.0;
+				}
+			}
+		} else {
+			if (B == null || B.length == 0) {
+				if (A.length % 2 == 1) {
+					return A[A.length/2];
+				}else{
+				    return (A[A.length / 2 - 1] + A[A.length / 2]) / 2.0;
+				}
+			}
+		}
+		int medianInd = (A.length + B.length) / 2;
+		boolean oddLength = (A.length + B.length) % 2 == 1;
+		int previous = 0;
+		int median = 0;
+		boolean isAEnd = false;
+		boolean isBEnd = false;
+		for (int a = 0, b = 0, m = 0; m <= medianInd; m++) {
+			previous = median;
+			if (isBEnd || (!isAEnd && (A[a] <= B[b]))) {
+				median = A[a];
+				if (a < A.length-1) {
+					a++;
+				}else{
+				    isAEnd = true;
+				}
+			} else {
+				median = B[b];
+				if (b < B.length-1) {
+					b++;
+				}else{
+				    isBEnd = true;
+				}
+			}
+		}
+		if (oddLength) {
+			return median;
+		} else {
+			return (median + previous) / 2.0;
+		}
+	}
+
+	/**
+	 * Given an array of integers, every element appears twice except for one.
+	 * Find that single one.
+	 * 
+	 * Note: Your algorithm should have a linear runtime complexity. Could you
+	 * implement it without using extra memory?
+	 */
+	public static int singleNumber(int[] A) {
+		if (A == null || A.length == 0) {
+			throw new IllegalArgumentException();
+		}
+		if (A.length == 1) {
+			return A[0];
+		}
+		Arrays.sort(A);
+		for (int i = 0; i < A.length; i = i + 2) {
+			if (i + 1 < A.length && A[i] != A[i + 1]) {
+				return A[i];
+			}
+		}
+		return A[A.length - 1];
+	}
 }
