@@ -1,6 +1,7 @@
 package qiao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -264,5 +265,67 @@ public class TreeNavigation {
 			}
 		}
 		return values;
+	}
+	
+	
+	/**
+	 * Given a binary tree, return the preorder traversal of its nodes' values.
+
+		For example:
+		Given binary tree {1,#,2,3},
+		   1
+		    \
+		     2
+		    /
+		   3
+		return [1,2,3].
+		
+		Note: Recursive solution is trivial, could you do it iteratively?
+	 */
+	
+	public List<Integer> preorderTraversal(TreeNode root) {
+		if (root == null) {
+			return Collections.emptyList();
+		}
+		List<Integer> result = new ArrayList<Integer>();
+		preorderTraversal(root, result);
+		return result;
+	}
+
+	private void preorderTraversal(TreeNode root, List<Integer> result) {
+		result.add(root.val);
+		if (root.left != null) {
+			preorderTraversal(root.left, result);
+		}
+		if (root.right != null) {
+			preorderTraversal(root.right, result);
+		}
+	}
+	
+	/**
+	 * 
+	 * preorder without recursion
+	 * 
+	 * @param root
+	 * @return
+	 */
+	public List<Integer> preorderTraversalWithLoop(TreeNode root) {
+		if (root == null) {
+			return Collections.emptyList();
+		}
+		List<Integer> result = new ArrayList<Integer>();
+		Stack<TreeNode> path = new Stack<TreeNode>();
+		path.push(root);
+		while (!path.empty()) {
+			TreeNode node = path.pop();
+			result.add(node.val);
+			if (node.right != null) {
+				path.push(node.right);
+			}
+			if (node.left != null) {
+				path.push(node.left);
+			}
+		}
+		return result;
 	}
 }

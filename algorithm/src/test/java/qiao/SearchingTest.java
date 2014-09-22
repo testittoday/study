@@ -45,6 +45,10 @@ public class SearchingTest {
 	 * 
 	 */
 	public void testIsMatch() {
+		assertFalse(Searching.isMatch("a", "b.."));
+		assertTrue(Searching.isMatch("", ""));
+		assertTrue(Searching.isMatch("baccbbcbcacacbbc", "c*.*b*c*ba*b*b*.a*"));
+		assertTrue(Searching.isMatch("", ".*"));
 		assertFalse(Searching.isMatch("aa", "a"));
 		assertTrue(Searching.isMatch("aa", "aa"));
 		assertFalse(Searching.isMatch("aaa", "a"));
@@ -67,8 +71,8 @@ public class SearchingTest {
 		assertTrue(Searching.isMatch("ac", "ab*c"));
 		assertTrue(Searching.isMatch("abbc", "ab*bbc"));
 		assertTrue(Searching.isMatch("abcbcd", "a.*c.*.*d"));
-//		assertFalse(Searching.isMatch("ab", ".*c"));
-//		assertFalse(Searching.isMatch("aaa", "ab*a"));
-//		assertFalse(Searching.isMatch("aaba", "ab*a*c*a"));
+		assertFalse(Searching.isMatch("ab", ".*c"));
+		assertFalse(Searching.isMatch("aaa", "ab*a"));
+		assertFalse(Searching.isMatch("aaba", "ab*a*c*a"));
 	}
 }
