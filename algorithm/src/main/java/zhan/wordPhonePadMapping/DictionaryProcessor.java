@@ -75,7 +75,7 @@ public class DictionaryProcessor {
             String key = (String) entry.getKey();
             List<String> valueList = (List<String>) entry.getValue();
             System.out.print("word digit = " + key);
-            System.out.println(" has the following mapping words : ");
+//            System.out.println(" has the following mapping words : ");
             for(String s : valueList) {
                 System.out.println(s);
             }
@@ -121,7 +121,7 @@ public class DictionaryProcessor {
                 String key = mapWordToDigitString(word);
                 addWord(key, word);
             }
-            printMap();
+//            printMap();
 //        } catch (FileNotFoundException e){
 //            System.out.print("error occurred during reading Dictionary file!");
 //        }
@@ -139,7 +139,7 @@ public class DictionaryProcessor {
             String key = mapWordToDigitString(word);
             addWord(key, word);
         }
-        printMap();
+//        printMap();
     }
 
     public static void main(String[] args) {
