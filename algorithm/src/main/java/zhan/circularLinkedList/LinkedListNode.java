@@ -13,5 +13,10 @@ package zhan.circularLinkedList;
 public class LinkedListNode {
     
     LinkedListNode next;
+    int m_val;
+    
+    public LinkedListNode(int val){
+    	m_val = val;
+    }
     
 }

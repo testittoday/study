@@ -90,11 +90,19 @@ public class Sorting {
 		if (a.length == 1) {
 			return a;
 		}
+		sort(a, 0, a.length);
 		return a;
 	}
 
+	/**
+	 * Quick sort, single pivot
+	 * 
+	 * @param a
+	 * @param start
+	 * @param end
+	 */
 	public static void sort(int[] a, int start, int end) {
-		if (start >= end || a.length == 1) {
+		if (a == null || a.length < 2 || start >= end) {
 			return;
 		}
 		Set<Integer> leftNumbers = new HashSet<Integer>();

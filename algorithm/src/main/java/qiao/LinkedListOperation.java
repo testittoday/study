@@ -112,5 +112,72 @@ public class LinkedListOperation {
 		a.val = b.val;
 		b.val = temp;
 	}
+	
+	/**
+	 * Given a linked list, determine if it has a cycle in it.
 
+		Follow up:
+		Can you solve it without using extra space?
+	 * @param head
+	 * @return
+	 */
+	public boolean hasCycle(ListNode head) {
+        if(head==null){
+            return false;
+        }
+        ListNode turtle = head;
+        ListNode rabbit = head;
+        while(turtle!=null && rabbit!=null){
+            turtle = turtle.next;
+            rabbit = rabbit.next;
+            if(rabbit==null){
+                return false;
+            }else{
+                rabbit = rabbit.next;
+                if(rabbit == null){
+                    return false;
+                }
+            }
+            if(rabbit == turtle){
+                return true;
+            }
+        }
+        return false;
+    }
+
+	/**
+	 * Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+		Follow up:
+		Can you solve it without using extra space?
+	 * @param head
+	 * @return
+	 */
+	public ListNode detectCycle(ListNode head) {
+        if(head==null || head.next==null){
+            return null;
+        }
+        ListNode turtle = head;
+        ListNode hare = head;
+        while(turtle!=null && hare!=null){
+            turtle = turtle.next;
+            hare = hare.next;
+            if(hare==null){
+                return null;
+            }else{
+                hare = hare.next;
+                if(hare==null){
+                    return null;
+                }
+            }
+            if(turtle==hare){
+                break;
+            }
+        }
+        while(turtle!=head){
+            head = head.next;
+            turtle = turtle.next;
+        }
+        return head;
+    }
 }
