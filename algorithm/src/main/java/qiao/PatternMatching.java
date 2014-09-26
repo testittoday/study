@@ -2,8 +2,11 @@ package qiao;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
+import java.util.Stack;
 
 public class PatternMatching {
 
@@ -26,6 +29,7 @@ public class PatternMatching {
 	public List<List<String>> findLadders(String start, String end,
 			Set<String> dict) {
 		m_minSize = Integer.MAX_VALUE;
+		m_visited = new HashSet<String>();
 		if (start == null || start.isEmpty() || end == null || end.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
@@ -40,8 +44,10 @@ public class PatternMatching {
 			return result;
 		}
 		List<List<String>> paths = new ArrayList<List<String>>();
-		List<String> p = new ArrayList<String>();
+		Stack<String> p = new Stack<String>();
+		p.push(start);
 		Set<String> checked = new HashSet<String>();
+		checked.add(start);
 		findPath(start, end, p, paths, dict, checked);
 		for (List<String> path : paths) {
 			if (path.size() == m_minSize) {
@@ -59,66 +65,66 @@ public class PatternMatching {
 	}
 
 	private int m_minSize = Integer.MAX_VALUE;
-	private Set<String> m_similarStrings = new HashSet<String>();
-	private Set<String> m_unSimilarStrings = new HashSet<String>();
-	private Set<String> m_winners = new HashSet<String>();
 
-	private void findPath(String start, String end, List<String> path,
+	// private Set<String> m_similarStrings = new HashSet<String>();
+	// private Set<String> m_unSimilarStrings = new HashSet<String>();
+	private Set<String> m_visited = new HashSet<String>();
+
+	private void findPath(String start, String end, Stack<String> path,
 			List<List<String>> result, Set<String> dict, Set<String> checked) {
-		if (!m_winners.contains(start) && path.size() < m_minSize) {
-			path.add(start);
+		if (!m_visited.contains(start) && path.size() < m_minSize) {
 			for (String word : dict) {
 				if (!checked.contains(word)) {
 					checked.add(word);
 					if (isSimilar(start, word)) {
+						path.push(word);
 						if (word.equals(end)) {
-							m_winners.add(start);
+							// m_visited.add(path.elementAt(1));
 							if (path.size() <= m_minSize - 1
 									|| result.size() == 0) {
 								List<String> ladder = new ArrayList<String>(
 										path);
-								ladder.add(end);
 								result.add(ladder);
 								m_minSize = ladder.size();
 								System.out.println("found a shortest ladder: "
 										+ m_minSize);
-								printPath(ladder);
+								// printPath(ladder);
 							}
 						} else {
 							if (path.size() < m_minSize) {
 								findPath(word, end, path, result, dict, checked);
 							}
 						}
-
+						path.pop();
 					}
 					checked.remove(word);
 				}
 			}
-			path.remove(start);
+
 		}
 	}
 
 	private boolean isSimilar(String a, String b) {
 		String c = a + ":" + b;
-		if (m_similarStrings.contains(c)) {
-			return true;
-		} else if (m_unSimilarStrings.contains(c)) {
-			return false;
-		}
+		// if (m_similarStrings.contains(c)) {
+		// return true;
+		// } else if (m_unSimilarStrings.contains(c)) {
+		// return false;
+		// }
 		boolean isSimilar = false;
 		for (int i = 0; i < a.length(); i++) {
 			if (a.charAt(i) != b.charAt(i)) {
 				if (isSimilar) {
-					m_unSimilarStrings.add(c);
+					// m_unSimilarStrings.add(c);
 					return false;
 				} else {
 					isSimilar = true;
 				}
 			}
 		}
-		if (isSimilar) {
-			m_similarStrings.add(c);
-		}
+		// if (isSimilar) {
+		// m_similarStrings.add(c);
+		// }
 		return isSimilar;
 	}
 
@@ -130,10 +136,56 @@ public class PatternMatching {
 	}
 
 	public static void printPath(List<String> path) {
+		int i = 0;
 		for (String s : path) {
 			System.out.print(s);
-			System.out.print("->");
+			if (i < path.size() - 1) {
+				System.out.print("->");
+			}
+			i++;
 		}
 		System.out.println(";");
+	}
+
+	/*
+	 * This solution is from leetcode.com. Rather than looping though the words
+	 * in the dictionary, it generates words and check if they are in
+	 * dictionary.
+	 * 
+	 * TODO Still need to understand why it works
+	 */
+	public static int ladderLength(String start, String end, Set<String> dict) {
+		Set<String> visited = new HashSet<String>();
+		Queue<String> q = new LinkedList<String>();
+		Queue<Integer> steps = new LinkedList<Integer>();
+
+		int N = start.length();
+		q.add(start);
+		steps.add(0);
+
+		while (!q.isEmpty()) {
+			String word = q.poll();
+			visited.add(word);
+			int st = steps.poll();
+			char[] wordChar = word.toCharArray();
+
+			for (int i = 0; i < N; i++) { // for every character in the word
+				char saved = wordChar[i];
+				for (char c = 'a'; c <= 'z'; c++) { // try every char
+					wordChar[i] = c;
+					String str = new String(wordChar);
+					if (str.equals(end))
+						return st + 1;
+					if (dict.contains(str) && !visited.contains(str)) {
+						q.add(str);
+						st++;
+						steps.add(st);
+						// visited.add(str);
+					}
+				}
+				wordChar[i] = saved;
+			}
+		}
+		return 0;
 	}
 }
