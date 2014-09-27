@@ -163,85 +163,93 @@ public class PatternMatching {
 		int N = start.length();
 		q.add(start);
 		steps.add(1);
-
-		while (!q.isEmpty()) {
-			String word = q.poll();
-			visited.add(word);
-			int st = steps.poll();
-			char[] wordChar = word.toCharArray();
-
-			for (int i = 0; i < N; i++) { // for every character in the word
-				char saved = wordChar[i];
-				for (char c = 'a'; c <= 'z'; c++) { // try every char
-					wordChar[i] = c;
-					String str = new String(wordChar);
-					if (str.equals(end))
-						return st + 1;
-					if (dict.contains(str) && !visited.contains(str)) {
-						if (!q.contains(str)) {
-							q.add(str);
-							steps.add(st + 1);
-						}
-
-					}
-				}
-				// st++;
-				wordChar[i] = saved;
-			}
-		}
-		return 0;
-	}
-
-	public static List<List<String>> findLadders2(String start, String end,
-			Set<String> dict) {
-		Set<String> visited = new HashSet<String>();
-		Queue<String> q = new LinkedList<String>();
-		Queue<Integer> steps = new LinkedList<Integer>();
-		List<List<String>> result = new ArrayList<List<String>>();
-		int N = start.length();
-		q.add(start);
-		steps.add(0);
-		Stack<String> path = new Stack<String>();
-		path.push(start);
 		int minSize = Integer.MAX_VALUE;
 		while (!q.isEmpty()) {
 			String word = q.poll();
 			visited.add(word);
 			int st = steps.poll();
-			if (st > minSize) {
-				continue;
-			}
-			char[] wordChar = word.toCharArray();
+			if (st < minSize) {
+				char[] wordChar = word.toCharArray();
 
-			for (int i = 0; i < N && st <= minSize; i++) { // for every
-															// character in the
-															// word
-				char saved = wordChar[i];
-				for (char c = 'a'; c <= 'z' && st <= minSize; c++) { // try
-																		// every
-																		// char
-					wordChar[i] = c;
-					String str = new String(wordChar);
-					if (str.equals(end) && st < minSize) {
-						List<String> ladder = new ArrayList<String>(path);
-						result.add(ladder);
-						path.removeAll(path);
-						path.push(start);
-						minSize = st + 1;
-						continue;
-					}
-					if (dict.contains(str) && !visited.contains(str)) {
-						q.add(str);
-						path.push(str);
-						st++;
-						steps.add(st);
-						// visited.add(str);
-					}
+				for (int i = 0; i < N; i++) { // for every character in the word
+					char saved = wordChar[i];
+					for (char c = 'a'; c <= 'z'; c++) { // try every char
+						wordChar[i] = c;
+						String str = new String(wordChar);
+						if (str.equals(end)) {
+							if (minSize > st + 1) {
+								minSize = st + 1;
+							}
+							// return st + 1;
+							continue;
+						}
+						if (dict.contains(str) && !visited.contains(str)) {
+							if (!q.contains(str)) {
+								q.add(str);
+								steps.add(st + 1);
+							}
 
+						}
+					}
+					// st++;
+					wordChar[i] = saved;
 				}
-				wordChar[i] = saved;
 			}
+		}
+		return minSize;
+	}
 
+	public static List<List<String>> findLadders2(String start, String end,
+			Set<String> dict) {
+		List<List<String>> ladders = new ArrayList<List<String>>();
+		int minSize = Integer.MAX_VALUE;
+		Set<String> visited = new HashSet<String>();
+		Queue<String> q = new LinkedList<String>();
+		Queue<Stack<String>> steps = new LinkedList<Stack<String>>();
+		int N = start.length();
+		q.add(start);
+		steps.add(new Stack<String>());
+		while (!q.isEmpty()) {
+			String word = q.poll();
+			visited.add(word);
+			Stack<String> step = steps.poll();
+			step.push(word);
+			if (minSize > step.size()) {
+				char[] wordChar = word.toCharArray();
+				for (int i = 0; i < N; i++) { // for every character in the word
+					char saved = wordChar[i];
+					for (char c = 'a'; c <= 'z'; c++) { // try every char
+						wordChar[i] = c;
+						String str = new String(wordChar);
+						if (str.equals(end)) {
+							List<String> ladder = new ArrayList<String>(step);
+							ladder.add(str);
+							ladders.add(ladder);
+							if (minSize > ladder.size()) {
+								minSize = ladder.size();
+							}
+						}
+						if (dict.contains(str) && !visited.contains(str)) {
+							if (!q.contains(str)) {
+								q.add(str);
+								Stack<String> newStep = new Stack<String>();
+								newStep.addAll(step);
+								steps.add(newStep);
+							}
+
+						}
+					}
+					wordChar[i] = saved;
+				}
+
+			}
+		}
+
+		List<List<String>> result = new ArrayList<List<String>>();
+		for (List<String> ladder : ladders) {
+			if (minSize == ladder.size()) {
+				result.add(ladder);
+			}
 		}
 		return result;
 	}

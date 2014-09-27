@@ -11,14 +11,14 @@ public class PatternMatchingTest {
 	public void test() {
 		Set<String> dict = createDict(new String[] { "a", "b", "c" });
 		PatternMatching pm = new PatternMatching();
-		// PatternMatching.print(pm.findLadders("a", "c", dict));
+		PatternMatching.print(pm.findLadders2("a", "c", dict));
 		System.out.println(PatternMatching.ladderLength("a", "c", dict));
 		dict = createDict(new String[] { "hot", "dog", "dot" });
-		// PatternMatching.print(pm.findLadders("hot", "dog", dict));
+		PatternMatching.print(pm.findLadders2("hot", "dog", dict));
 		System.out.println(PatternMatching.ladderLength("hot", "dog", dict));
 		dict = createDict(new String[] { "hot", "cog", "dog", "tot", "hog",
 				"hop", "pot", "dot" });
-		// PatternMatching.print(pm.findLadders2("hot", "dog", dict));
+		PatternMatching.print(pm.findLadders2("hot", "dog", dict));
 		System.out.println(PatternMatching.ladderLength("hot", "dog", dict));
 
 		dict = createDict(new String[] { "si", "go", "se", "cm", "so", "ph",
@@ -31,7 +31,7 @@ public class PatternMatchingTest {
 				"os", "uh", "wm", "an", "me", "mo", "na", "la", "st", "er",
 				"sc", "ne", "mn", "mi", "am", "ex", "pt", "io", "be", "fm",
 				"ta", "tb", "ni", "mr", "pa", "he", "lr", "sq", "ye" });
-		// PatternMatching.print(pm.findLadders2("qa", "sq", dict));
+		PatternMatching.print(pm.findLadders2("qa", "sq", dict));
 		System.out.println(PatternMatching.ladderLength("qa", "sq", dict));
 		dict = createDict(new String[] { "kid", "tag", "pup", "ail", "tun",
 				"woo", "erg", "luz", "brr", "gay", "sip", "kay", "per", "val",
@@ -100,7 +100,7 @@ public class PatternMatchingTest {
 				"jay", "hob", "mow", "jot", "are", "pol", "arc", "lax", "aft",
 				"alb", "len", "air", "pug", "pox", "vow", "got", "meg", "zoe",
 				"amp", "ale", "bud", "gee", "pin", "dun", "pat", "ten", "mob" });
-		// PatternMatching.print(pm.findLadders2("cet", "ism", dict));
+		PatternMatching.print(pm.findLadders2("cet", "ism", dict));
 		System.out.println(PatternMatching.ladderLength("cet", "ism", dict));
 
 		dict = createDict(new String[] { "ricky", "grind", "cubic", "panic",
@@ -756,7 +756,7 @@ public class PatternMatchingTest {
 				"yummy", "grade", "proxy", "hopes", "girth", "deter", "dowry",
 				"aorta", "paean", "corms", "giant", "shank", "where", "means",
 				"years", "vegan", "derek", "tales" });
-		// PatternMatching.print(pm.findLadders2("nanny", "aloud", dict));
+		PatternMatching.print(pm.findLadders2("nanny", "aloud", dict));
 		System.out
 				.println(PatternMatching.ladderLength("nanny", "aloud", dict));
 	}
