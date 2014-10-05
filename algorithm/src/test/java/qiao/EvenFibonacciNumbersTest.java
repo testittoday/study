@@ -9,7 +9,7 @@ public class EvenFibonacciNumbersTest {
 	@Test
 	public void test() {
 		int result = EvenFibonacciNumbers.sumOfEvenFibonacciNumbers(4000000);
-		assertTrue("result: " + result, result == 0);
+		assertTrue("result: " + result, result == 4613732);
 	}
 
 }

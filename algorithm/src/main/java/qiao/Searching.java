@@ -209,6 +209,9 @@ public class Searching {
 		if (s == null || p == null) {
 			return false;
 		}
+		if (p.length() == 1 && p.charAt(0) == '*') {
+			return true;
+		}
 		return isMatchFromC2(s.toCharArray(), 0, p.toCharArray(), 0);
 		// return isMatchFromC(s, p);
 	}

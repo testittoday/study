@@ -328,4 +328,33 @@ public class TreeNavigation {
 		}
 		return result;
 	}
+	
+	/**
+	 * in order with loop
+	 * @param root
+	 * @return
+	 */
+	public List<Integer> inorderTraversal(TreeNode root) {
+        if(root==null){
+            return Collections.emptyList();
+        }
+        List<Integer> result = new ArrayList<Integer>();
+        Stack<TreeNode> path = new Stack<TreeNode>();
+        path.push(root);
+        Set<TreeNode> visited = new HashSet<TreeNode>();
+        while(!path.empty()){
+            TreeNode node = path.pop();
+            if(node.left!=null && !visited.contains(node.left)){
+                path.push(node);
+                path.push(node.left);
+            }else{
+                result.add(node.val);
+                visited.add(node);
+                if(node.right!=null && !visited.contains(node.right)){
+                    path.push(node.right);
+                }
+            }
+        }        
+        return result;
+    }
 }
